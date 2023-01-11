@@ -33,20 +33,20 @@ public class EHRMapping {
     private String clientName;
 
     @NotNull
-    @Column(name = "source_ehr_type")
-    private String sourceEHRType;
+    @Column(name = "source_ehr_name")
+    private String sourceEHRName;
 
     @NotNull
-    @Column(name = "target_ehr_type")
-    private String targetEHRType;
+    @Column(name = "target_ehr_name")
+    private String targetEHRName;
 
     @NotNull
     @Column(name = "service_line")
     private String serviceLine;
 
     @NotNull
-    @Column(name = "target_process_type")
-    private String targetProcessType;
+    @Column(name = "target_process_name")
+    private String targetProcessName;
 
     @NotNull
     @Column(name = "target_sheet_name")
@@ -83,7 +83,7 @@ public class EHRMapping {
     private String sourceFieldFormat;
 
     @CreatedDate
-    @Column(name = "creation_on")
+    @Column(name = "created_on")
     private String createdOn;
 
     @CreatedBy

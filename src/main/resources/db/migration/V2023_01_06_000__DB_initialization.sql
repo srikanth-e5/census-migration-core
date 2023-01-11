@@ -6,7 +6,7 @@ CREATE TABLE ehr(
         process_name TEXT,
         field_name TEXT NOT NULL,
         field_type TEXT NOT NULL,
-        creation_on timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        created_on timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
         created_by TEXT NOT NULL,
         modified_on timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
         modified_by TEXT
@@ -31,7 +31,7 @@ CREATE TABLE ehr_mapping(
         source_field_name TEXT,
         source_field_type TEXT,
         source_field_format TEXT,
-        creation_on timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        created_on timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
         created_by TEXT NOT NULL,
         modified_on timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
         modified_by TEXT
@@ -48,7 +48,7 @@ CREATE TABLE mapping_master(
         master_type TEXT NOT NULL,
         source_value TEXT NOT NULL,
         target_value TEXT NOT NULL,
-        creation_on timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        created_on timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
         created_by TEXT NOT NULL,
         modified_on timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
         modified_by TEXT

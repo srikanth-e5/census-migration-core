@@ -10,6 +10,6 @@ import java.util.UUID;
 @Repository
 public interface EHRMappingRepository extends JpaRepository<EHRMapping, UUID> {
 
-    List<EHRMapping> findBySourceEHRTypeAndTargetEHRTypeAndServiceLineAndClientName(String sourceEHRType, String targetEHRType,
+    List<EHRMapping> findBySourceEHRNameAndTargetEHRNameAndServiceLineAndClientName(String sourceEHRName, String targetEHRName,
                                                                                     String serviceLine, String clientName);
 }

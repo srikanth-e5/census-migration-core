@@ -4,6 +4,7 @@ import com.org.census.model.MappingResponseDto;
 
 public interface MappingService {
 
-    MappingResponseDto getOneTimeMappingDetails(String sourceEHRType, String targetEHRType, String serviceLine);
+    MappingResponseDto getOneTimeMappingDetails(String sourceEHRName, String targetEHRName, String serviceLine,
+                                                String clientName);
 
 }

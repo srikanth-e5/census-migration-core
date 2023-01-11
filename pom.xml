@@ -23,7 +23,7 @@
 		<build.maven-compiler-plugin.version>3.8.0</build.maven-compiler-plugin.version>
 		<infrastructure.maven.compiler.source>${maven.compiler.source}</infrastructure.maven.compiler.source>
 		<infrastructure.maven.compiler.target>${maven.compiler.target}</infrastructure.maven.compiler.target>
-		<build.lombok.version>1.18.12</build.lombok.version>
+		<build.lombok.version>1.18.24</build.lombok.version>
 	</properties>
 	<dependencies>
 		<dependency>

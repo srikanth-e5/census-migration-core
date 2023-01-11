@@ -12,7 +12,8 @@ public class MappingController implements MappingApi {
     private MappingService mappingService;
 
     @Override
-    public MappingResponseDto getOneTimeMappingDetails(String sourceEHRType, String targetEHRType, String serviceLine) {
-        return mappingService.getOneTimeMappingDetails(sourceEHRType, targetEHRType, serviceLine);
+    public MappingResponseDto getOneTimeMappingDetails(String sourceEHRName, String targetEHRName, String serviceLine,
+                                                       String clientName) {
+        return mappingService.getOneTimeMappingDetails(sourceEHRName, targetEHRName, serviceLine, clientName);
     }
 }
