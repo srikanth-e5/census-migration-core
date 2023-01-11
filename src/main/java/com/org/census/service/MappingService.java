@@ -1,9 +1,9 @@
 package com.org.census.service;
 
-import com.org.census.dto.MappingResponseDto;
+import com.org.census.model.MappingResponseDto;
 
 public interface MappingService {
 
-    MappingResponseDto getOneTimeMappingDetails(String ehrType, String targetEHRType, String sourceEHRType);
+    MappingResponseDto getOneTimeMappingDetails(String sourceEHRType, String targetEHRType, String serviceLine);
 
 }

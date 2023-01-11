@@ -1,4 +1,4 @@
-package com.org.census.dto;
+package com.org.census.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +13,7 @@ public class MappingResponseDto {
 
     private String sourceEHRType;
 
-    private String destinationEHRType;
+    private String targetEHRType;
 
     private String serviceLine;
 

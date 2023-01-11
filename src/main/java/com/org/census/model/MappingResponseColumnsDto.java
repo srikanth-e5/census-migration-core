@@ -1,4 +1,4 @@
-package com.org.census.dto;
+package com.org.census.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
