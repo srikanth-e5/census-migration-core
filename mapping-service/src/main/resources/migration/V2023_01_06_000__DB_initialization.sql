@@ -48,9 +48,9 @@ CREATE TABLE mapping_master(
         master_type TEXT NOT NULL,
         source_value TEXT NOT NULL,
         target_value TEXT NOT NULL,
-        created_on timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        created_by TEXT NOT NULL,
-        modified_on timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        created_on timestamptz DEFAULT CURRENT_TIMESTAMP,
+        created_by TEXT,
+        modified_on timestamptz DEFAULT CURRENT_TIMESTAMP,
         modified_by TEXT
 );
 
