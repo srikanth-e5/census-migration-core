@@ -45,7 +45,7 @@ CREATE TABLE mapping_master(
         source_ehr_name TEXT NOT NULL,
         target_ehr_name TEXT NOT NULL,
         service_line TEXT NOT NULL,
-        client_name TEXT NOT NULL,
+        client_name TEXT,
         master_type TEXT NOT NULL,
         source_value TEXT NOT NULL,
         target_value TEXT NOT NULL,

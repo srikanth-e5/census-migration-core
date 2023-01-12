@@ -1,7 +1,7 @@
 package com.org.census.migration.service;
 
-import com.org.census.migration.dto.MappingMasterDto;
-import com.org.census.migration.dto.MappingMasterResponseDto;
+import com.org.census.migration.model.MappingMasterDto;
+import com.org.census.migration.model.MappingMasterResponseDto;
 
 import java.util.List;
 

@@ -2,13 +2,13 @@ package com.org.census.migration.service;
 
 import com.org.census.migration.converter.DtoToEntityConverter;
 import com.org.census.migration.converter.EntityToDtoConverter;
-import com.org.census.migration.dto.MappingMaster;
-import com.org.census.migration.dto.MappingMasterDto;
-import com.org.census.migration.dto.MappingMasterResponseDto;
+import com.org.census.migration.exception.ResourceNotFoundException;
+import com.org.census.migration.model.MappingMaster;
+import com.org.census.migration.model.MappingMasterDto;
+import com.org.census.migration.model.MappingMasterResponseDto;
 import com.org.census.migration.repository.MappingMasterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.webjars.NotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,7 +91,7 @@ public class MappingMasterServiceImpl implements com.org.census.migration.servic
         if(Objects.nonNull(mappingMaster)){
             mappingMasterRepository.delete(mappingMaster);
         } else {
-            throw new NotFoundException("Given value doesn't exist");
+            throw new ResourceNotFoundException("Given value doesn't exist");
         }
     }
 }

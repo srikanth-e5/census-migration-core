@@ -1,7 +1,7 @@
 package com.org.census.migration.controller;
 
-import com.org.census.migration.dto.MappingRequestDto;
-import com.org.census.migration.dto.MappingResponseDto;
+import com.org.census.migration.model.MappingRequestDto;
+import com.org.census.migration.model.MappingResponseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -1,8 +1,8 @@
 package com.org.census.migration.mapper;
 
-import com.org.census.migration.dto.EHRMapping;
-import com.org.census.migration.dto.MappingRequestDto;
-import com.org.census.migration.dto.MappingResponseColumnsDto;
+import com.org.census.migration.model.EHRMapping;
+import com.org.census.migration.model.MappingRequestDto;
+import com.org.census.migration.model.MappingResponseColumnsDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
