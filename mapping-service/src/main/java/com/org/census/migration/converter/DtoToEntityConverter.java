@@ -1,8 +1,8 @@
 package com.org.census.migration.converter;
 
-import com.org.census.migration.entity.MappingMaster;
-import com.org.census.migration.model.MappingMasterDto;
-import com.org.census.migration.model.MappingMasterResponseDto;
+import com.org.census.migration.dto.MappingMaster;
+import com.org.census.migration.dto.MappingMasterDto;
+import com.org.census.migration.dto.MappingMasterResponseDto;
 
 import java.util.ArrayList;
 import java.util.List;

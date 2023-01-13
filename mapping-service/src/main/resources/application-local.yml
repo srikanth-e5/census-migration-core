@@ -12,6 +12,10 @@ spring:
     password: root
     driver-class-name: org.postgresql.Driver
     platform: POSTGRESQL
+  flyway:
+    locations: classpath:migration
+    enabled: true
+    check-location: false
 springdoc:
   api-docs:
     path: /v3/api-docs

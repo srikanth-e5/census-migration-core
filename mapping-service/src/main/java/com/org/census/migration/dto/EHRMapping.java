@@ -1,4 +1,4 @@
-package com.org.census.migration.entity;
+package com.org.census.migration.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import java.time.Instant;
 import java.util.UUID;
 
 @Data
@@ -84,7 +85,7 @@ public class EHRMapping {
 
     @CreatedDate
     @Column(name = "created_on")
-    private String createdOn;
+    private Instant createdOn;
 
     @CreatedBy
     @Column(name = "created_by")
@@ -92,7 +93,7 @@ public class EHRMapping {
 
     @LastModifiedDate
     @Column(name = "modified_on")
-    private String modifiedOn;
+    private Instant modifiedOn;
 
     @LastModifiedBy
     @Column(name = "modified_by")

@@ -1,4 +1,4 @@
-package com.org.census.migration.model;
+package com.org.census.migration.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MappingResponseColumnsDto {
 
-    private String targetProcessType;
+    private String targetProcessName;
 
     private String targetSheetName;
 
@@ -17,7 +17,7 @@ public class MappingResponseColumnsDto {
 
     private String targetFieldFormat;
 
-    private String isMandatoryTargetField;
+    private Boolean isTargetFieldMandatory;
 
     private String sourceFileName;
 
@@ -28,7 +28,5 @@ public class MappingResponseColumnsDto {
     private String sourceFieldType;
 
     private String sourceFieldFormat;
-
-    private String mapping;
 
 }

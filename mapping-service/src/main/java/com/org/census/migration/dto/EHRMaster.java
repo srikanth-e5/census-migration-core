@@ -1,4 +1,4 @@
-package com.org.census.migration.entity;
+package com.org.census.migration.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -21,34 +22,29 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "mapping_master")
-public class MappingMaster {
+@Table(name = "ehr")
+public class EHRMaster {
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.AUTO
-    )
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(name = "source_ehr_name")
-    private String sourceEhrName;
+    @Column(name = "ehr_name")
+    @NotNull
+    private String ehrName;
 
-    @Column(name = "target_ehr_name")
-    private String targetEhrName;
+    @Column(name = "process_name")
+    private String processName;
 
-    @Column(name = "service_line")
-    private String serviceLine;
+    @Column(name = "sheet_name")
+    private String sheetName;
 
-    @Column(name = "client_name")
-    private String clientName;
+    @NotNull
+    @Column(name = "field_name")
+    private String fieldName;
 
-    @Column(name = "master_type")
-    private String masterType;
-
-    @Column(name = "source_value")
-    private String sourceValue;
-
-    @Column(name = "target_value")
-    private String targetValue;
+    @NotNull
+    @Column(name = "field_type")
+    private String fieldType;
 
     @Column(name = "created_on")
     @CreatedDate

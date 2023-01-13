@@ -1,7 +1,7 @@
 package com.org.census.migration.controller;
 
-import com.org.census.migration.model.MappingMasterDto;
-import com.org.census.migration.model.MappingMasterResponseDto;
+import com.org.census.migration.dto.MappingMasterDto;
+import com.org.census.migration.dto.MappingMasterResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;

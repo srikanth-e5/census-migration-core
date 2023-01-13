@@ -4,11 +4,12 @@ CREATE TABLE ehr(
         id UUID NOT NULL PRIMARY KEY,
         ehr_name TEXT NOT NULL,
         process_name TEXT,
+        sheet_name TEXT,
         field_name TEXT NOT NULL,
         field_type TEXT NOT NULL,
-        created_on timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        created_by TEXT NOT NULL,
-        modified_on timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        created_on timestamptz DEFAULT CURRENT_TIMESTAMP,
+        created_by TEXT,
+        modified_on timestamptz DEFAULT CURRENT_TIMESTAMP,
         modified_by TEXT
 );
 
@@ -31,9 +32,9 @@ CREATE TABLE ehr_mapping(
         source_field_name TEXT,
         source_field_type TEXT,
         source_field_format TEXT,
-        created_on timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        created_by TEXT NOT NULL,
-        modified_on timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        created_on timestamptz DEFAULT CURRENT_TIMESTAMP,
+        created_by TEXT,
+        modified_on timestamptz DEFAULT CURRENT_TIMESTAMP,
         modified_by TEXT
 );
 
