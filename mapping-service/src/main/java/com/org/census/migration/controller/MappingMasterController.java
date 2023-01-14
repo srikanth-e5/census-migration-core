@@ -1,7 +1,7 @@
 package com.org.census.migration.controller;
 
-import com.org.census.migration.dto.MappingMasterDto;
-import com.org.census.migration.dto.MappingMasterResponseDto;
+import com.org.census.migration.model.MappingMasterDto;
+import com.org.census.migration.model.MappingMasterResponseDto;
 import com.org.census.migration.service.MappingMasterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,8 +18,11 @@ public class MappingMasterController implements MappingMasterApi {
 
     @Override
     public ResponseEntity<Void> saveMappingMaster(String sourceEHRName, String targetEHRName, String serviceLine,
-                                                      String clientName, String masterType,
-                                                      List<MappingMasterDto> mappingMasterDto) {
+                                                  String masterType, String clientName,
+                                                  List<MappingMasterDto> mappingMasterDto) {
+        if (null == clientName || clientName.isBlank()) {
+            clientName = "DEFAULT";
+        }
         mappingMasterService.saveMappingMaster(sourceEHRName, targetEHRName, serviceLine, clientName,
                                                       masterType, mappingMasterDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -27,21 +30,30 @@ public class MappingMasterController implements MappingMasterApi {
 
     @Override
     public MappingMasterResponseDto getMappingMaster(String sourceEHRName, String targetEHRName, String serviceLine,
-                                                     String clientName, String masterType) {
+                                                     String masterType, String clientName) {
+        if (null == clientName || clientName.isBlank()) {
+            clientName = "DEFAULT";
+        }
         return mappingMasterService.getMappingMaster(sourceEHRName, targetEHRName, serviceLine, clientName, masterType);
     }
 
     @Override
     public ResponseEntity<Void> updateMappingMaster(String sourceEHRName, String targetEHRName, String serviceLine,
-                                                        String clientName, String masterType,
-                                                        List<MappingMasterDto> mappingMasterDto) {
+                                                    String masterType, String clientName,
+                                                    List<MappingMasterDto> mappingMasterDto) {
+        if (null == clientName || clientName.isBlank()) {
+            clientName = "DEFAULT";
+        }
         mappingMasterService.updateMappingMaster(sourceEHRName, targetEHRName, serviceLine, clientName, masterType, mappingMasterDto);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @Override
     public ResponseEntity<Void> deleteMappingMaster(String sourceEHRName, String targetEHRName, String serviceLine,
-                                                        String clientName, String masterType, String sourceValue) {
+                                                    String masterType, String clientName, String sourceValue) {
+        if (null == clientName || clientName.isBlank()) {
+            clientName = "DEFAULT";
+        }
         mappingMasterService.deleteMappingMaster(sourceEHRName, targetEHRName, serviceLine, clientName, masterType, sourceValue);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

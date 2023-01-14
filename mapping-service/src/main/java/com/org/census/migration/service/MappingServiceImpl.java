@@ -1,11 +1,11 @@
 package com.org.census.migration.service;
 
-import com.org.census.migration.dto.EHRMapping;
-import com.org.census.migration.dto.EHRMaster;
+import com.org.census.migration.model.EHRMapping;
+import com.org.census.migration.model.EHRMaster;
 import com.org.census.migration.mapper.ModelEntityMapper;
-import com.org.census.migration.dto.MappingRequestDto;
-import com.org.census.migration.dto.MappingResponseColumnsDto;
-import com.org.census.migration.dto.MappingResponseDto;
+import com.org.census.migration.model.MappingRequestDto;
+import com.org.census.migration.model.MappingResponseColumnsDto;
+import com.org.census.migration.model.MappingResponseDto;
 import com.org.census.migration.repository.EHRMappingRepository;
 import com.org.census.migration.repository.EHRRepository;
 import org.springframework.beans.factory.annotation.Autowired;

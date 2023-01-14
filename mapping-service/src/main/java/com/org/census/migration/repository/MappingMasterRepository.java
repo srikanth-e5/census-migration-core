@@ -1,6 +1,6 @@
 package com.org.census.migration.repository;
 
-import com.org.census.migration.dto.MappingMaster;
+import com.org.census.migration.model.MappingMaster;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
