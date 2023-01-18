@@ -11,4 +11,8 @@ public interface MappingService {
                                          String clientName);
 
     void saveOneTimeMappingDetails(String sourceEHRName, String targetEHRName, String serviceLine, List<MappingRequestDto> mappingRequestDto);
+
+    void saveClientMappingDetails(String clientName, String sourceEHRName, String targetEHRName, String serviceLine);
+
+    void updateOneTimeMappingDetails(String sourceEHRName, String targetEHRName, String serviceLine, List<MappingRequestDto> mappingRequestDto);
 }

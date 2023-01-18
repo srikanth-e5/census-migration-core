@@ -29,4 +29,19 @@ public class MappingController implements MappingApi {
         mappingService.saveOneTimeMappingDetails(sourceEHRName, targetEHRName, serviceLine, mappingRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    @Override
+    public ResponseEntity<Void> updateOneTimeMappingDetails(String sourceEHRName, String targetEHRName,
+                                                            String serviceLine,
+                                                            List<MappingRequestDto> mappingRequestDto) {
+        mappingService.updateOneTimeMappingDetails(sourceEHRName, targetEHRName, serviceLine, mappingRequestDto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @Override
+    public ResponseEntity<Void> saveClientMappingDetails(String clientName, String sourceEHRName, String targetEHRName,
+                                                         String serviceLine) {
+        mappingService.saveClientMappingDetails(clientName, sourceEHRName, targetEHRName, serviceLine);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
 }
