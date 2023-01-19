@@ -2,6 +2,7 @@ package com.org.census.migration.controller;
 
 import com.org.census.migration.model.MappingRequestDto;
 import com.org.census.migration.model.MappingResponseDto;
+import com.org.census.migration.model.UpdateMappingRequestDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,11 +37,18 @@ public interface MappingApi {
     ResponseEntity<Void> updateOneTimeMappingDetails(@PathVariable("sourceEHRName") @NotNull String sourceEHRName,
                                                    @PathVariable("targetEHRName") @NotNull String targetEHRName,
                                                    @PathVariable("serviceLine") @NotNull String serviceLine,
-                                                   @RequestBody @Valid List<MappingRequestDto> mappingRequestDto);
+                                                   @RequestBody @Valid List<UpdateMappingRequestDto> mappingRequestDto);
 
     @PostMapping(MAPPING + CLIENT_NAME + SOURCE_TARGET_EHR_SERVICE_LINE + "/details")
     ResponseEntity<Void> saveClientMappingDetails(@PathVariable("clientName") @NotNull String clientName,
                                                   @PathVariable("sourceEHRName") @NotNull String sourceEHRName,
                                                   @PathVariable("targetEHRName") @NotNull String targetEHRName,
                                                   @PathVariable("serviceLine") @NotNull String serviceLine);
+
+    @PutMapping(MAPPING + CLIENT_NAME + SOURCE_TARGET_EHR_SERVICE_LINE + "/details")
+    ResponseEntity<Void> updateClientMappingDetails(@PathVariable("clientName") @NotNull String clientName,
+                                                    @PathVariable("sourceEHRName") @NotNull String sourceEHRName,
+                                                     @PathVariable("targetEHRName") @NotNull String targetEHRName,
+                                                     @PathVariable("serviceLine") @NotNull String serviceLine,
+                                                     @RequestBody @Valid List<UpdateMappingRequestDto> mappingRequestDto);
 }

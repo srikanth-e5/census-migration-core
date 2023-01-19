@@ -2,6 +2,7 @@ package com.org.census.migration.controller;
 
 import com.org.census.migration.model.MappingRequestDto;
 import com.org.census.migration.model.MappingResponseDto;
+import com.org.census.migration.model.UpdateMappingRequestDto;
 import com.org.census.migration.service.MappingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,9 +34,9 @@ public class MappingController implements MappingApi {
     @Override
     public ResponseEntity<Void> updateOneTimeMappingDetails(String sourceEHRName, String targetEHRName,
                                                             String serviceLine,
-                                                            List<MappingRequestDto> mappingRequestDto) {
+                                                            List<UpdateMappingRequestDto> mappingRequestDto) {
         mappingService.updateOneTimeMappingDetails(sourceEHRName, targetEHRName, serviceLine, mappingRequestDto);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @Override
@@ -44,4 +45,14 @@ public class MappingController implements MappingApi {
         mappingService.saveClientMappingDetails(clientName, sourceEHRName, targetEHRName, serviceLine);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    @Override
+    public ResponseEntity<Void> updateClientMappingDetails(String clientName, String sourceEHRName,
+                                                           String targetEHRName, String serviceLine,
+                                                           List<UpdateMappingRequestDto> mappingRequestDto) {
+
+        mappingService.updateClientMappingDetails(clientName, sourceEHRName, targetEHRName, serviceLine, mappingRequestDto);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
 }
