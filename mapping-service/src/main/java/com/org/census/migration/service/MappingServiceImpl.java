@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -77,36 +76,34 @@ public class MappingServiceImpl implements MappingService {
     public void updateOneTimeMappingDetails(String sourceEHRName, String targetEHRName, String serviceLine,
                                             List<MappingRequestDto> mappingRequestDto) {
         List<EHRMapping> updatedOneTimeMappingList = new ArrayList<>();
-        List<EHRMapping> oneTimeEhrMappingList = ehrMappingRepository.findBySourceEHRNameAndTargetEHRNameAndServiceLine(
-                sourceEHRName, targetEHRName, serviceLine);
+        List<EHRMapping> oneTimeEhrMappingList = ehrMappingRepository.findBySourceEHRNameAndTargetEHRNameAndServiceLineAndClientName(
+                sourceEHRName, targetEHRName, serviceLine, Constants.DEFAULT_CLIENT_NAME);
 
         List<EHRMaster> ehrMasterList = ehrRepository.findByEhrName(targetEHRName);
-        Map<String, List<EHRMaster>> fieldMap = ehrMasterList.stream().collect(Collectors.groupingBy(EHRMaster::getFieldName));
+        Map<String, List<EHRMaster>> ehrFieldMap = ehrMasterList.stream().collect(Collectors.groupingBy(EHRMaster::getFieldName));
 
-        for (MappingRequestDto ehrMapping : mappingRequestDto) {
-            List<EHRMapping> ehrMappingList = oneTimeEhrMappingList.stream()
-                                                     .filter(s -> s.getTargetFieldName().equals(ehrMapping.getTargetFieldName()) &&
-                                                                  s.getTargetProcessName().equals(ehrMapping.getTargetProcessName()))
-                                                     .collect(Collectors.toList());
-            if(ehrMappingList.isEmpty()) {
-                EHRMapping ehrOneTimeMapping = modelEntityMapper.toEntity(ehrMapping);
+        for (MappingRequestDto ehrMappingRequest : mappingRequestDto) {
+            Optional<EHRMapping> ehrMapping = oneTimeEhrMappingList.stream()
+                                                     .filter(s -> s.getTargetFieldName().equals(ehrMappingRequest.getTargetFieldName()) &&
+                                                                  s.getTargetProcessName().equals(ehrMappingRequest.getTargetProcessName()))
+                                                     .findFirst();
+            if (ehrMapping.isPresent()) {
+                ehrMapping.get().setSourceFileName(ehrMappingRequest.getSourceFileName());
+                ehrMapping.get().setSourceSheetName(ehrMappingRequest.getSourceSheetName());
+                ehrMapping.get().setSourceFieldName(ehrMappingRequest.getSourceFieldName());
+                ehrMapping.get().setSourceFieldType(ehrMappingRequest.getSourceFieldType());
+                ehrMapping.get().setSourceFieldFormat(ehrMappingRequest.getSourceFieldFormat());
+                updatedOneTimeMappingList.add(ehrMapping.get());
+            } else {
+                EHRMapping ehrOneTimeMapping = modelEntityMapper.toEntity(ehrMappingRequest);
                 ehrOneTimeMapping.setServiceLine(serviceLine);
                 ehrOneTimeMapping.setSourceEHRName(sourceEHRName);
                 ehrOneTimeMapping.setTargetEHRName(targetEHRName);
                 //TODO : This will break if same field name is available in multiple sheets or multiple times
                 // check with jai and ask him to send values from front end.
-                ehrOneTimeMapping.setTargetFieldType(fieldMap.get(ehrOneTimeMapping.getTargetFieldName()).get(0).getFieldType());
-                ehrOneTimeMapping.setTargetSheetName(fieldMap.get(ehrOneTimeMapping.getTargetFieldName()).get(0).getSheetName());
+                ehrOneTimeMapping.setTargetFieldType(ehrFieldMap.get(ehrOneTimeMapping.getTargetFieldName()).get(0).getFieldType());
+                ehrOneTimeMapping.setTargetSheetName(ehrFieldMap.get(ehrOneTimeMapping.getTargetFieldName()).get(0).getSheetName());
                 updatedOneTimeMappingList.add(ehrOneTimeMapping);
-            } else {
-                for (EHRMapping ehr : ehrMappingList) {
-                    ehr.setSourceFileName(ehrMapping.getSourceFileName());
-                    ehr.setSourceSheetName(ehrMapping.getSourceSheetName());
-                    ehr.setSourceFieldName(ehrMapping.getSourceFieldName());
-                    ehr.setSourceFieldType(ehrMapping.getSourceFieldType());
-                    ehr.setSourceFieldFormat(ehrMapping.getSourceFieldFormat());
-                    updatedOneTimeMappingList.add(ehr);
-                }
             }
         }
         ehrMappingRepository.saveAll(updatedOneTimeMappingList);
@@ -115,6 +112,10 @@ public class MappingServiceImpl implements MappingService {
     @Override
     public void saveClientMappingDetails(String clientName, String sourceEHRName, String targetEHRName,
                                          String serviceLine) {
+        int count = ehrMappingRepository.countBySourceEHRNameAndTargetEHRNameAndServiceLineAndClientName(sourceEHRName, targetEHRName, serviceLine, clientName);
+        if (count > 0) {
+            return;
+        }
         List<EHRMapping> oneTimeMappingList = ehrMappingRepository.findBySourceEHRNameAndTargetEHRNameAndServiceLineAndClientName(
                 sourceEHRName, targetEHRName, serviceLine, Constants.DEFAULT_CLIENT_NAME);
         List<EHRMapping> updatedOneTimeMappingList = new ArrayList<>();
