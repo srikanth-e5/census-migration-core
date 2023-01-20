@@ -5,9 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class MappingResponseColumnsDto {
-
-    private String targetProcessName;
+public class MappingFieldsDto {
 
     private String targetSheetName;
 
@@ -28,5 +26,4 @@ public class MappingResponseColumnsDto {
     private String sourceFieldType;
 
     private String sourceFieldFormat;
-
 }

@@ -1,13 +1,11 @@
 package com.org.census.migration.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class MappingResponseDto {
 
@@ -17,5 +15,5 @@ public class MappingResponseDto {
 
     private String serviceLine;
 
-    private List<MappingResponseColumnsDto> mapping;
+    private List<MappingResponseFieldsDto> mapping;
 }

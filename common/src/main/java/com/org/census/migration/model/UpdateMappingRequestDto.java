@@ -10,6 +10,10 @@ public class UpdateMappingRequestDto {
     private String targetProcessName;
 
     private String targetFieldName;
+    // Added targetFieldType and targetSheetName. This will sent from UI form EHR Master.
+    private String targetFieldType;
+
+    private String targetSheetName;
 
     private Boolean isTargetFieldMandatory;
 

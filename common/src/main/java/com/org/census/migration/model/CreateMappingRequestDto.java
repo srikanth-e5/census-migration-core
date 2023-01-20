@@ -5,11 +5,16 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class MappingRequestDto {
+public class CreateMappingRequestDto {
 
     private String targetProcessName;
 
     private String targetFieldName;
+
+    // Added targetFieldType and targetSheetName. This will sent from UI form EHR Master.
+    private String targetFieldType;
+
+    private String targetSheetName;
 
     private Boolean isTargetFieldMandatory;
 

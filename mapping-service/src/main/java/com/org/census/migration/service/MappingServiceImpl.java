@@ -2,11 +2,11 @@ package com.org.census.migration.service;
 
 import com.org.census.migration.constant.Constants;
 import com.org.census.migration.mapper.ModelEntityMapper;
+import com.org.census.migration.model.CreateMappingRequestDto;
 import com.org.census.migration.model.EHRMapping;
-import com.org.census.migration.model.EHRMaster;
-import com.org.census.migration.model.MappingRequestDto;
-import com.org.census.migration.model.MappingResponseColumnsDto;
+import com.org.census.migration.model.MappingFieldsDto;
 import com.org.census.migration.model.MappingResponseDto;
+import com.org.census.migration.model.MappingResponseFieldsDto;
 import com.org.census.migration.model.UpdateMappingRequestDto;
 import com.org.census.migration.repository.EHRMappingRepository;
 import com.org.census.migration.repository.EHRRepository;
@@ -41,8 +41,17 @@ public class MappingServiceImpl implements MappingService {
         List<EHRMapping> responseList = ehrMappingRepository.findBySourceEHRNameAndTargetEHRNameAndServiceLineAndClientName(
                 sourceEHRName, targetEHRName, serviceLine, clientName);
         MappingResponseDto mappingResponseDto = new MappingResponseDto();
-        List<MappingResponseColumnsDto> responseColumnsList = modelEntityMapper.convertToEHRMappingResponseList(responseList);
-        mappingResponseDto.setMapping(responseColumnsList);
+        Map<String,List<EHRMapping>> processEHRMap = responseList.stream().collect(Collectors.groupingBy(EHRMapping::getTargetProcessName));
+
+        List<MappingResponseFieldsDto> ehrProcessMappingList =  new ArrayList<>();
+        for (Map.Entry<String,List<EHRMapping>> entry : processEHRMap.entrySet()) {
+            MappingResponseFieldsDto responseColumnsDto = new MappingResponseFieldsDto();
+            List<MappingFieldsDto> responseColumnsList = modelEntityMapper.convertToEHRMappingResponseList(entry.getValue());
+            responseColumnsDto.setFields(responseColumnsList);
+            responseColumnsDto.setTargetProcessName(entry.getKey());
+            ehrProcessMappingList.add(responseColumnsDto);
+        }
+        mappingResponseDto.setMapping(ehrProcessMappingList);
         mappingResponseDto.setServiceLine(serviceLine);
         mappingResponseDto.setSourceEHRType(sourceEHRName);
         mappingResponseDto.setTargetEHRType(targetEHRName);
@@ -51,24 +60,17 @@ public class MappingServiceImpl implements MappingService {
 
     @Override
     public void saveOneTimeMappingDetails(String sourceEHRName, String targetEHRName,
-                                          String serviceLine, List<MappingRequestDto> mappingRequestDto) {
+                                          String serviceLine, List<CreateMappingRequestDto> createMappingRequestDto) {
         List<EHRMapping> ehrMappingList = ehrMappingRepository.findBySourceEHRNameAndTargetEHRNameAndServiceLineAndClientName(
                 sourceEHRName, targetEHRName, serviceLine, Constants.DEFAULT_CLIENT_NAME);
         if (!ehrMappingList.isEmpty()) {
             return;
         }
-        List<EHRMapping> ehrOneTimeMapping = modelEntityMapper.convertToEHRMappingInfoList(mappingRequestDto);
-        List<EHRMaster> ehrMasterList = ehrRepository.findByEhrName(targetEHRName);
-        Map<String, List<EHRMaster>> fieldMap = ehrMasterList.stream()
-                                                             .collect(Collectors.groupingBy(EHRMaster::getFieldName));
+        List<EHRMapping> ehrOneTimeMapping = modelEntityMapper.convertToEHRMappingInfoList(createMappingRequestDto);
         ehrOneTimeMapping.forEach(ehrMapping -> {
             ehrMapping.setServiceLine(serviceLine);
             ehrMapping.setSourceEHRName(sourceEHRName);
             ehrMapping.setTargetEHRName(targetEHRName);
-            //TODO : This will break if same field name is available in multiple sheets or multiple times
-            // check with jai and ask him to send values from front end.
-            ehrMapping.setTargetFieldType(fieldMap.get(ehrMapping.getTargetFieldName()).get(0).getFieldType());
-            ehrMapping.setTargetSheetName(fieldMap.get(ehrMapping.getTargetFieldName()).get(0).getSheetName());
         });
         ehrMappingRepository.saveAll(ehrOneTimeMapping);
     }
@@ -79,9 +81,6 @@ public class MappingServiceImpl implements MappingService {
         List<EHRMapping> updatedOneTimeMappingList = new ArrayList<>();
         List<EHRMapping> oneTimeEhrMappingList = ehrMappingRepository.findBySourceEHRNameAndTargetEHRNameAndServiceLineAndClientName(
                 sourceEHRName, targetEHRName, serviceLine, Constants.DEFAULT_CLIENT_NAME);
-
-        List<EHRMaster> ehrMasterList = ehrRepository.findByEhrName(targetEHRName);
-        Map<String, List<EHRMaster>> ehrFieldMap = ehrMasterList.stream().collect(Collectors.groupingBy(EHRMaster::getFieldName));
 
         for (UpdateMappingRequestDto ehrMappingRequest : mappingRequestDto) {
             Optional<EHRMapping> ehrMapping = oneTimeEhrMappingList.stream()
@@ -100,10 +99,6 @@ public class MappingServiceImpl implements MappingService {
                 ehrOneTimeMapping.setServiceLine(serviceLine);
                 ehrOneTimeMapping.setSourceEHRName(sourceEHRName);
                 ehrOneTimeMapping.setTargetEHRName(targetEHRName);
-                //TODO : This will break if same field name is available in multiple sheets or multiple times
-                // check with jai and ask him to send values from front end.
-                ehrOneTimeMapping.setTargetFieldType(ehrFieldMap.get(ehrOneTimeMapping.getTargetFieldName()).get(0).getFieldType());
-                ehrOneTimeMapping.setTargetSheetName(ehrFieldMap.get(ehrOneTimeMapping.getTargetFieldName()).get(0).getSheetName());
                 updatedOneTimeMappingList.add(ehrOneTimeMapping);
             }
         }
@@ -137,9 +132,6 @@ public class MappingServiceImpl implements MappingService {
         List<EHRMapping> clientEhrMappingList = ehrMappingRepository.findBySourceEHRNameAndTargetEHRNameAndServiceLineAndClientName(
                 sourceEHRName, targetEHRName, serviceLine, clientName);
 
-        List<EHRMaster> ehrMasterList = ehrRepository.findByEhrName(targetEHRName);
-        Map<String, List<EHRMaster>> ehrFieldMap = ehrMasterList.stream().collect(Collectors.groupingBy(EHRMaster::getFieldName));
-
         for (UpdateMappingRequestDto updateEHRMappingRequest : updateMappingRequestDto) {
             Optional<EHRMapping> ehrMapping = clientEhrMappingList.stream()
                                                                    .filter(s -> s.getTargetFieldName().equals(updateEHRMappingRequest.getTargetFieldName()) &&
@@ -157,10 +149,6 @@ public class MappingServiceImpl implements MappingService {
                 updatedEHRMapping.setServiceLine(serviceLine);
                 updatedEHRMapping.setSourceEHRName(sourceEHRName);
                 updatedEHRMapping.setTargetEHRName(targetEHRName);
-                //TODO : This will break if same field name is available in multiple sheets or multiple times
-                // check with jai and ask him to send values from front end.
-                updatedEHRMapping.setTargetFieldType(ehrFieldMap.get(updatedEHRMapping.getTargetFieldName()).get(0).getFieldType());
-                updatedEHRMapping.setTargetSheetName(ehrFieldMap.get(updatedEHRMapping.getTargetFieldName()).get(0).getSheetName());
                 updatedClientMappingList.add(updatedEHRMapping);
             }
         }

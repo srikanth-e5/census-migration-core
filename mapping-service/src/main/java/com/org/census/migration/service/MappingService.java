@@ -1,6 +1,6 @@
 package com.org.census.migration.service;
 
-import com.org.census.migration.model.MappingRequestDto;
+import com.org.census.migration.model.CreateMappingRequestDto;
 import com.org.census.migration.model.MappingResponseDto;
 import com.org.census.migration.model.UpdateMappingRequestDto;
 
@@ -11,7 +11,7 @@ public interface MappingService {
     MappingResponseDto getMappingDetails(String sourceEHRName, String targetEHRName, String serviceLine,
                                          String clientName);
 
-    void saveOneTimeMappingDetails(String sourceEHRName, String targetEHRName, String serviceLine, List<MappingRequestDto> mappingRequestDto);
+    void saveOneTimeMappingDetails(String sourceEHRName, String targetEHRName, String serviceLine, List<CreateMappingRequestDto> createMappingRequestDto);
 
     void updateOneTimeMappingDetails(String sourceEHRName, String targetEHRName, String serviceLine, List<UpdateMappingRequestDto> mappingRequestDto);
 

@@ -1,6 +1,6 @@
 package com.org.census.migration.controller;
 
-import com.org.census.migration.model.MappingRequestDto;
+import com.org.census.migration.model.CreateMappingRequestDto;
 import com.org.census.migration.model.MappingResponseDto;
 import com.org.census.migration.model.UpdateMappingRequestDto;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +31,7 @@ public interface MappingApi {
     ResponseEntity<Void> saveOneTimeMappingDetails(@PathVariable("sourceEHRName") @NotNull String sourceEHRName,
                                                    @PathVariable("targetEHRName") @NotNull String targetEHRName,
                                                    @PathVariable("serviceLine") @NotNull String serviceLine,
-                                                   @RequestBody @Valid List<MappingRequestDto> mappingRequestDto);
+                                                   @RequestBody @Valid List<CreateMappingRequestDto> createMappingRequestDto);
 
     @PutMapping(MAPPING + SOURCE_TARGET_EHR_SERVICE_LINE + "/details")
     ResponseEntity<Void> updateOneTimeMappingDetails(@PathVariable("sourceEHRName") @NotNull String sourceEHRName,
