@@ -7,16 +7,16 @@ import java.util.List;
 
 public interface MappingMasterService {
     void saveMappingMaster(String sourceEHRName, String targetEHRName, String serviceLine,
-                                               String clientName, String masterType,
+                                               String masterType, String clientName,
                                                List<MappingMasterDto> mappingMasterDto);
 
     MappingMasterResponseDto getMappingMaster(String sourceEHRName, String targetEHRName, String serviceLine,
-                                              String clientName, String masterType);
+                                              String masterType, String clientName);
 
     void updateMappingMaster(String sourceEHRName, String targetEHRName, String serviceLine,
-                                               String clientName, String masterType,
+                                               String masterType, String clientName,
                                                List<MappingMasterDto> mappingMasterDto);
 
     void deleteMappingMaster(String sourceEHRName, String targetEHRName, String serviceLine,
-                                                 String clientName, String masterType, String sourceValue);
+                                                 String masterType, String clientName, String sourceValue);
 }

@@ -10,14 +10,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
 
+import static com.org.census.migration.constant.Constants.ApiPath.*;
+
+@RequestMapping(BASE_API_PATH_V1)
 public interface MappingMasterApi {
-    @PostMapping("/mapping/sourceEHRName/{sourceEHRName}/targetEHRName/{targetEHRName}/serviceLine/{serviceLine}"
-                        + "/masterType/{masterType}")
+    @PostMapping(MAPPING + SOURCE_TARGET_EHR_SERVICE_LINE + "/masterType/{masterType}")
     @ResponseStatus(HttpStatus.CREATED)
     ResponseEntity<Void> saveMappingMaster(@PathVariable("sourceEHRName") String sourceEHRName,
                                            @PathVariable("targetEHRName") String targetEHRName,
@@ -26,8 +29,7 @@ public interface MappingMasterApi {
                                            @RequestParam(name="clientName", required = false) String clientName,
                                            @RequestBody List<MappingMasterDto> mappingMasterDto);
 
-    @GetMapping("/mapping/sourceEHRName/{sourceEHRName}/targetEHRName/{targetEHRName}/serviceLine/{serviceLine}"
-                         + "/masterType/{masterType}")
+    @GetMapping(MAPPING + SOURCE_TARGET_EHR_SERVICE_LINE + "/masterType/{masterType}")
     @ResponseStatus(HttpStatus.OK)
     MappingMasterResponseDto getMappingMaster(@PathVariable("sourceEHRName") String sourceEHRName,
                                               @PathVariable("targetEHRName") String targetEHRName,
@@ -35,8 +37,7 @@ public interface MappingMasterApi {
                                               @PathVariable("masterType") String masterType,
                                               @RequestParam(name="clientName", required = false) String clientName);
 
-    @PutMapping("/mapping/sourceEHRName/{sourceEHRName}/targetEHRName/{targetEHRName}/serviceLine/{serviceLine}"
-                         + "/masterType/{masterType}")
+    @PutMapping(MAPPING + SOURCE_TARGET_EHR_SERVICE_LINE + "/masterType/{masterType}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     ResponseEntity<Void> updateMappingMaster(@PathVariable("sourceEHRName") String sourceEHRName,
                                              @PathVariable("targetEHRName") String targetEHRName,
@@ -45,8 +46,7 @@ public interface MappingMasterApi {
                                              @RequestParam(name="clientName", required = false) String clientName,
                                              @RequestBody List<MappingMasterDto> mappingMasterDto);
 
-    @DeleteMapping("/mapping/sourceEHRName/{sourceEHRName}/targetEHRName/{targetEHRName}/serviceLine/{serviceLine}"
-                        + "/masterType/{masterType}/sourceValue/{sourceValue}")
+    @DeleteMapping(MAPPING + SOURCE_TARGET_EHR_SERVICE_LINE + "/masterType/{masterType}/sourceValue/{sourceValue}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     ResponseEntity<Void> deleteMappingMaster(@PathVariable("sourceEHRName") String sourceEHRName,
                                              @PathVariable("targetEHRName") String targetEHRName,

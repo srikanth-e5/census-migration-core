@@ -1,5 +1,6 @@
 package com.org.census.migration.service;
 
+import com.org.census.migration.constant.Constants;
 import com.org.census.migration.converter.DtoToEntityConverter;
 import com.org.census.migration.converter.EntityToDtoConverter;
 import com.org.census.migration.exception.ResourceNotFoundException;
@@ -23,8 +24,8 @@ public class MappingMasterServiceImpl implements com.org.census.migration.servic
 
     @Override
     public void saveMappingMaster(String sourceEHRName, String targetEHRName, String serviceLine,
-                                                      String clientName, String masterType,
-                                                      List<MappingMasterDto> mappingMasterDto) {
+                                  String masterType, String clientName, List<MappingMasterDto> mappingMasterDto) {
+        clientName = clientName == null ? Constants.DEFAULT_CLIENT_NAME : clientName;
         MappingMasterResponseDto mappingMasterResponseDto = MappingMasterResponseDto.builder().sourceEhrName(sourceEHRName)
                                                                                     .targetEhrName(targetEHRName)
                                                                                     .serviceLine(serviceLine)
@@ -47,7 +48,8 @@ public class MappingMasterServiceImpl implements com.org.census.migration.servic
 
     @Override
     public MappingMasterResponseDto getMappingMaster(String sourceEHRName, String targetEHRName, String serviceLine,
-                                                     String clientName, String masterType) {
+                                                     String masterType, String clientName) {
+        clientName = clientName == null ? Constants.DEFAULT_CLIENT_NAME : clientName;
         List<MappingMaster> mappingMasterList = mappingMasterRepository.findBySourceEhrNameAndTargetEhrNameAndServiceLineAndClientNameAndMasterType(
                 sourceEHRName, targetEHRName, serviceLine, clientName, masterType);
         return  EntityToDtoConverter.toMappingMasterResponseDto(mappingMasterList);
@@ -55,8 +57,8 @@ public class MappingMasterServiceImpl implements com.org.census.migration.servic
 
     @Override
     public void updateMappingMaster(String sourceEHRName, String targetEHRName, String serviceLine,
-                                                        String clientName, String masterType,
-                                                        List<MappingMasterDto> mappingMasterDto) {
+                                    String masterType, String clientName, List<MappingMasterDto> mappingMasterDto) {
+        clientName = clientName == null ? Constants.DEFAULT_CLIENT_NAME : clientName;
         MappingMasterResponseDto mappingMasterResponseDto = MappingMasterResponseDto.builder().sourceEhrName(sourceEHRName)
                                                                                     .targetEhrName(targetEHRName)
                                                                                     .serviceLine(serviceLine)
@@ -85,7 +87,8 @@ public class MappingMasterServiceImpl implements com.org.census.migration.servic
 
     @Override
     public void deleteMappingMaster(String sourceEHRName, String targetEHRName, String serviceLine,
-                                                        String clientName, String masterType, String sourceValue) {
+                                    String masterType, String clientName, String sourceValue) {
+        clientName = clientName == null ? Constants.DEFAULT_CLIENT_NAME : clientName;
         MappingMaster mappingMaster = mappingMasterRepository.findBySourceEhrNameAndTargetEhrNameAndServiceLineAndClientNameAndMasterTypeAndSourceValue(
                 sourceEHRName, targetEHRName, serviceLine, clientName, masterType, sourceValue);
         if(Objects.nonNull(mappingMaster)){
