@@ -21,6 +21,8 @@ public class BatchDetailsDto {
 
     private String clientName;
 
+    private String batchName;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/YYYY")
     private Date goLiveDate;
 

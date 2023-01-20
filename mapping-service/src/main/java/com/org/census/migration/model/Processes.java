@@ -43,7 +43,7 @@ public class Processes {
     private String filePath;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "batch_key", referencedColumnName = "batchId")
+    @JoinColumn(name = "batch_id", referencedColumnName = "batchId")
     @JsonIgnoreProperties("processesList")
     private BatchDetails batchDetails;
 }

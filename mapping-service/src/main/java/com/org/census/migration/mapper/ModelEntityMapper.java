@@ -28,5 +28,7 @@ public interface ModelEntityMapper {
 
     public abstract BatchDetailsDto toBatchDetailsDTO(BatchDetails batchDetails);
 
+    public abstract List<BatchDetailsDto> toBatchDetailsDTOList(List<BatchDetails> batchDetailsList);
+
     public abstract BatchDetails toBatchDetailsEntity(BatchDetailsDto batchDetailsDto);
 }

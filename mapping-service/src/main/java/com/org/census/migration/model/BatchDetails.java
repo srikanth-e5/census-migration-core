@@ -49,6 +49,9 @@ public class BatchDetails {
     @Column(name = "client_name")
     private String clientName;
 
+    @Column(name = "batch_name")
+    private String batchName;
+
     @Column(name = "go_live_date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/YYYY")
     private Date goLiveDate;
