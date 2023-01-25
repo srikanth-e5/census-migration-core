@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -52,7 +53,7 @@ public class MappingMaster {
 
     @Column(name = "created_on")
     @CreatedDate
-    private OffsetDateTime createdOn;
+    private Instant createdOn;
 
     @CreatedBy
     @Column(name = "created_by")
@@ -60,7 +61,7 @@ public class MappingMaster {
 
     @Column(name = "modified_on")
     @LastModifiedDate
-    private OffsetDateTime modifiedOn;
+    private Instant modifiedOn;
 
     @Column(name = "modified_by")
     @LastModifiedBy

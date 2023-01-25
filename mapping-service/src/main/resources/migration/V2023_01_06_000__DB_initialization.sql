@@ -77,8 +77,3 @@ CREATE TABLE processes(
         file_path TEXT,
         batch_id UUID
 );
-
-CREATE TABLE processes_upload_files(
-        processes_process_id UUID NOT NULL PRIMARY KEY,
-        upload_files TEXT NOT NULL
-);

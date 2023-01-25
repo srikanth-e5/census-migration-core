@@ -19,6 +19,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -62,7 +63,7 @@ public class BatchDetails {
 
     @Column(name = "created_on")
     @CreatedDate
-    private OffsetDateTime createdOn;
+    private Instant createdOn;
 
     @CreatedBy
     @Column(name = "created_by")
@@ -70,7 +71,7 @@ public class BatchDetails {
 
     @Column(name = "modified_on")
     @LastModifiedDate
-    private OffsetDateTime modifiedOn;
+    private Instant modifiedOn;
 
     @Column(name = "modified_by")
     @LastModifiedBy

@@ -1,0 +1,10 @@
+version: '3'
+services:
+   localstack:
+        image: localstack/localstack:0.9.0
+        container_name: census-migration-core
+        environment:
+          - SERVICES=s3:4572
+          - DEFAULT_REGION=us-west-2
+        ports:
+          - 14572:4572

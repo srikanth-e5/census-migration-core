@@ -34,4 +34,9 @@ public class Constants {
         public static final String CLIENT_NAME = "/client/{clientName}";
 
     }
+
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class Error {
+        public static final String VALIDATION_FAILED_DETAIL = "Validation failed";
+    }
 }

@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -16,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -34,10 +32,6 @@ public class Processes {
 
     @Column(name = "process_name")
     private String processName;
-
-    @Column(name = "upload_files")
-    @ElementCollection
-    private List<String> uploadFiles;
 
     @Column(name = "file_path")
     private String filePath;

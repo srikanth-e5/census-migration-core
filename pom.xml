@@ -26,10 +26,16 @@
 
 	<properties>
 		<java.version>11</java.version>
+		<spring-cloud.version>2022.0.0</spring-cloud.version>
+		<build.spring-cloud-starter-aws.version>2.2.6.RELEASE</build.spring-cloud-starter-aws.version>
+		<build.spring-cloud-aws-core.version>2.2.6.RELEASE</build.spring-cloud-aws-core.version>
+		<build.aws-java-sdk.version>1.12.385</build.aws-java-sdk.version>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 		<build.org.mapstruct.version>1.5.2.Final</build.org.mapstruct.version>
 		<build.lombok.version>1.18.24</build.lombok.version>
+		<build.poi-ooxml.version>5.2.2</build.poi-ooxml.version>
+		<build.commons-csv.version>1.9.0</build.commons-csv.version>
 		<build.maven-compiler-plugin.version>3.10.1</build.maven-compiler-plugin.version>
 		<build.maven-compiler-plugin.version>3.10.1</build.maven-compiler-plugin.version>
 		<infrastructure.maven.compiler.source>${maven.compiler.source}</infrastructure.maven.compiler.source>
@@ -54,6 +60,43 @@
 				<groupId>${project.groupId}</groupId>
 				<artifactId>transformation-service</artifactId>
 				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-starter-aws</artifactId>
+				<version>${build.spring-cloud-starter-aws.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-aws-core</artifactId>
+				<version>${build.spring-cloud-aws-core.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.amazonaws</groupId>
+				<artifactId>aws-java-sdk</artifactId>
+				<version>${build.aws-java-sdk.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.amazonaws</groupId>
+				<artifactId>aws-java-sdk-s3</artifactId>
+				<version>${build.aws-java-sdk.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.amazonaws</groupId>
+				<artifactId>aws-java-sdk-core</artifactId>
+				<version>${build.aws-java-sdk.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-aws-autoconfigure</artifactId>
+				<version>${build.spring-cloud-aws-core.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
@@ -110,6 +153,16 @@
 				<artifactId>mapstruct-processor</artifactId>
 				<version>${build.org.mapstruct.version}</version>
 				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi-ooxml</artifactId>
+				<version>${build.poi-ooxml.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-csv</artifactId>
+				<version>${build.commons-csv.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

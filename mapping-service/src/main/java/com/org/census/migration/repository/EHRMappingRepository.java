@@ -14,5 +14,6 @@ public interface EHRMappingRepository extends JpaRepository<EHRMapping, UUID> {
                                                                                     String serviceLine, String clientName);
     Integer countBySourceEHRNameAndTargetEHRNameAndServiceLineAndClientName(String sourceEHRName, String targetEHRName,
                                                                             String serviceLine, String clientName);
-
+    List<EHRMapping> findBySourceEHRNameAndTargetEHRNameAndServiceLineAndClientNameAndTargetProcessName(
+            String sourceEHRName, String targetEHRName, String serviceLine, String clientName, String targetProcessName);
 }
