@@ -5,6 +5,7 @@ import com.org.census.migration.exception.ValidationException;
 import com.org.census.migration.mapper.ModelEntityMapper;
 import com.org.census.migration.model.BatchDetails;
 import com.org.census.migration.model.BatchDetailsDto;
+import com.org.census.migration.model.BatchDetailsRequestDto;
 import com.org.census.migration.model.EHRMapping;
 import com.org.census.migration.model.Processes;
 import com.org.census.migration.repository.BatchDetailsRepository;
@@ -17,7 +18,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -44,13 +44,8 @@ public class BatchDetailsServiceImpl implements BatchDetailsService{
     private String s3BucketName;
 
     @Override
-    public void saveBatchDetails(BatchDetailsDto batchDetailsDto, List<MultipartFile> patientCreationFiles) {
-        if(patientCreationFiles != null){
-            S3Utils.uploadFile(s3Client,s3BucketName,patientCreationFiles);
-        }
-        BatchDetails batchDetails = modelEntityMapper.toBatchDetailsEntity(batchDetailsDto);
-        for(Processes processes : batchDetails.getProcessesList())
-            processes.setBatchDetails(batchDetails);
+    public void saveBatchDetails(BatchDetailsRequestDto batchDetailsRequestDto) {
+        BatchDetails batchDetails = modelEntityMapper.toBatchDetailsEntity(batchDetailsRequestDto);
         BatchDetails batchNameDetails = batchDetailsRepository.findFirstBySourceEhrNameAndTargetEhrNameAndServiceLineAndClientNameOrderByBatchNameDesc(
                 batchDetails.getSourceEhrName(),batchDetails.getTargetEhrName(),batchDetails.getServiceLine(),
                 batchDetails.getClientName()
@@ -61,6 +56,7 @@ public class BatchDetailsServiceImpl implements BatchDetailsService{
             int batchNumber = Integer.parseInt(batchNameDetails.getBatchName().split("_")[1]) + 1;
             batchDetails.setBatchName("Batch_" + batchNumber);
         }
+        batchDetails.setStatus("NEW");
         batchDetailsRepository.save(batchDetails);
     }
 
@@ -82,15 +78,47 @@ public class BatchDetailsServiceImpl implements BatchDetailsService{
 
     @Override
     public boolean uploadFileValidation(String sourceEHRName, String targetEHRName, String serviceLine,
-                                        String clientName, String targetProcessName,
+                                        String clientName, String batchName, String processName,
                                         MultipartFile file) throws IOException {
-        String fileName = file.getName().toUpperCase();
-        boolean extension = fileName.endsWith(".XLSX") || fileName.endsWith(".XLS") ||
-                            fileName.endsWith(".GSHEET") || fileName.endsWith(".CSV");
+        boolean isFileValid = fileValidation(sourceEHRName, targetEHRName, serviceLine, clientName, processName, file);
+        if(isFileValid) {
+            String filePath = clientName + "/" + processName + "/" + batchName;
+            boolean isFileUpload = S3Utils.uploadFile(s3Client, s3BucketName, filePath, file.getOriginalFilename(), file);
+            if(isFileUpload) {
+                BatchDetails batchDetails = batchDetailsRepository
+                                                    .findBySourceEhrNameAndTargetEhrNameAndServiceLineAndClientNameAndBatchName(
+                                                            sourceEHRName, targetEHRName, serviceLine, clientName,
+                                                            batchName);
+                boolean isProcessNameExist = batchDetails.getProcessesList().stream()
+                                                  .anyMatch(r -> r.getProcessName().equals(processName));
+                if (!isProcessNameExist) {
+                    Processes processes = new Processes();
+                    processes.setProcessName(processName);
+                    processes.setFilePath(filePath);
+                    processes.setBatchDetails(batchDetails);
+                    List<Processes> processesList = new ArrayList<>();
+                    processesList.add(processes);
+                    batchDetails.setProcessesList(processesList);
+                    batchDetailsRepository.save(batchDetails);
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean fileValidation(String sourceEHRName, String targetEHRName, String serviceLine,
+                                   String clientName, String processName,
+                                   MultipartFile file) throws IOException {
+        if(file.getSize()>2000000000)
+            throw new ValidationException("File Size not supported");
+        String fileName = file.getOriginalFilename();
+        boolean extension = fileName.toUpperCase().endsWith(".XLSX") || fileName.endsWith(".XLS") ||
+                                    fileName.endsWith(".GSHEET") || fileName.endsWith(".CSV");
         if(extension) {
             List<String> sheetNameList = getSheetNames(file.getInputStream());
             List<EHRMapping> ehrMappingList = ehrMappingRepository.findBySourceEHRNameAndTargetEHRNameAndServiceLineAndClientNameAndTargetProcessName(
-                    sourceEHRName, targetEHRName, serviceLine, clientName, targetProcessName);
+                    sourceEHRName, targetEHRName, serviceLine, clientName, processName);
             List<String> fileNames = ehrMappingList.stream().map(EHRMapping::getSourceFileName).distinct().collect(Collectors.toList());
             List<String> sheetNames = ehrMappingList.stream().map(EHRMapping::getSourceSheetName).distinct().collect(Collectors.toList());
             for (String fileNameIterator : fileNames) {
@@ -98,8 +126,10 @@ public class BatchDetailsServiceImpl implements BatchDetailsService{
                     throw new ValidationException("File not supported");
             }
             for (String sheetNameIterator : sheetNameList) {
-                if(!sheetNames.contains(sheetNameIterator))
-                    throw new ValidationException("File not supported");
+                for(String sheetName : sheetNames){
+                    if(!sheetNameIterator.startsWith(sheetName))
+                        throw new ValidationException("File not supported");
+                }
             }
         } else {
             throw new ValidationException("File not supported");
@@ -112,8 +142,8 @@ public class BatchDetailsServiceImpl implements BatchDetailsService{
             Workbook workbook = new XSSFWorkbook(inputStream);
             int sheetCount = workbook.getNumberOfSheets();
             List<String> sheetNames = new ArrayList<>();
-            for(int i=1; i<=sheetCount;i++){
-                sheetNames.add(workbook.getSheetName(i));
+            for(int index=0; index<sheetCount;index++){
+                sheetNames.add(workbook.getSheetName(index));
             }
             return sheetNames;
         } catch (IOException e) {

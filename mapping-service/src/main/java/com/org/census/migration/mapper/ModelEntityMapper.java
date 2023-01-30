@@ -2,6 +2,7 @@ package com.org.census.migration.mapper;
 
 import com.org.census.migration.model.BatchDetails;
 import com.org.census.migration.model.BatchDetailsDto;
+import com.org.census.migration.model.BatchDetailsRequestDto;
 import com.org.census.migration.model.EHRMapping;
 import com.org.census.migration.model.MappingFieldsDto;
 import com.org.census.migration.model.CreateMappingRequestDto;
@@ -30,5 +31,5 @@ public interface ModelEntityMapper {
 
     public abstract List<BatchDetailsDto> toBatchDetailsDTOList(List<BatchDetails> batchDetailsList);
 
-    public abstract BatchDetails toBatchDetailsEntity(BatchDetailsDto batchDetailsDto);
+    public abstract BatchDetails toBatchDetailsEntity(BatchDetailsRequestDto batchDetailsRequestDto);
 }

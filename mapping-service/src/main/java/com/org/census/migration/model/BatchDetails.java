@@ -61,6 +61,9 @@ public class BatchDetails {
     @JsonIgnoreProperties("batchDetails")
     private List<Processes> processesList = new ArrayList<>();
 
+    @Column(name = "status")
+    private String status;
+
     @Column(name = "created_on")
     @CreatedDate
     private Instant createdOn;

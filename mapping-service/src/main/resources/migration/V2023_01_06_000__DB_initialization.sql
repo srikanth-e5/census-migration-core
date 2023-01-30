@@ -65,6 +65,7 @@ CREATE TABLE batch_details(
         client_name TEXT,
         batch_name TEXT,
         go_live_date DATE NOT NULL,
+        status TEXT,
         created_on timestamptz DEFAULT CURRENT_TIMESTAMP,
         created_by TEXT,
         modified_on timestamptz DEFAULT CURRENT_TIMESTAMP,

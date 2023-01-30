@@ -3,6 +3,7 @@ package com.org.census.migration.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.org.census.migration.exception.ValidationException;
 import com.org.census.migration.model.BatchDetailsDto;
+import com.org.census.migration.model.BatchDetailsRequestDto;
 import com.org.census.migration.service.BatchDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,14 +21,8 @@ public class BatchDetailsController implements BatchDetailsApi{
     BatchDetailsService batchDetailsService;
 
     @Override
-    public ResponseEntity<Void> saveBatchDetails(String batchDetails, List<MultipartFile> patientCreationFiles) {
-        BatchDetailsDto batchDetailsDto;
-        try{
-            batchDetailsDto = new ObjectMapper().readValue(batchDetails, BatchDetailsDto.class);
-        }catch (IOException exception){
-            throw new ValidationException("Invalid Data");
-        }
-        batchDetailsService.saveBatchDetails(batchDetailsDto, patientCreationFiles);
+    public ResponseEntity<Void> saveBatchDetails(BatchDetailsRequestDto batchDetailsRequestDto) {
+        batchDetailsService.saveBatchDetails(batchDetailsRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -44,10 +39,10 @@ public class BatchDetailsController implements BatchDetailsApi{
     }
 
     @Override
-    public boolean uploadFileValidation(String sourceEHRName, String targetEHRName, String serviceLine,
-                                                        String clientName, String targetProcessName,
-                                                        MultipartFile file) throws IOException {
+    public boolean uploadFileValidation(String sourceEHRName, String targetEHRName, String serviceLine, String clientName,
+                                    String batchName, String processName, MultipartFile sourceFile)
+            throws IOException {
         return batchDetailsService.uploadFileValidation(sourceEHRName, targetEHRName, serviceLine,
-                                                                             clientName, targetProcessName, file);
+                                                        clientName, batchName, processName, sourceFile);
     }
 }
