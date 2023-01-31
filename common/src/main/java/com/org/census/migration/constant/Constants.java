@@ -33,5 +33,14 @@ public class Constants {
 
         public static final String CLIENT_NAME = "/client/{clientName}";
 
+        public static final String BATCH_NAME = "/batchName/{batchName}";
+
+        public static final String PROCESS_NAME = "/processName/{processName}";
+
+    }
+
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class Error {
+        public static final String VALIDATION_FAILED_DETAIL = "Validation failed";
     }
 }

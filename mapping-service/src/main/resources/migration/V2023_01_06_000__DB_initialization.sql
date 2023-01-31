@@ -56,3 +56,25 @@ CREATE TABLE mapping_master(
 );
 
 CREATE INDEX idx_client_source_target_ehr_service_line ON mapping_master (client_name, source_ehr_name, target_ehr_name, service_line, master_type);
+
+CREATE TABLE batch_details(
+        batch_id UUID NOT NULL PRIMARY KEY,
+        source_ehr_name TEXT NOT NULL,
+        target_ehr_name TEXT NOT NULL,
+        service_line TEXT NOT NULL,
+        client_name TEXT,
+        batch_name TEXT,
+        go_live_date DATE NOT NULL,
+        status TEXT,
+        created_on timestamptz DEFAULT CURRENT_TIMESTAMP,
+        created_by TEXT,
+        modified_on timestamptz DEFAULT CURRENT_TIMESTAMP,
+        modified_by TEXT
+);
+
+CREATE TABLE processes(
+        process_id UUID NOT NULL PRIMARY KEY,
+        process_name TEXT NOT NULL,
+        file_path TEXT,
+        batch_id UUID
+);

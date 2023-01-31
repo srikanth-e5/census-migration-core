@@ -1,5 +1,8 @@
 package com.org.census.migration.mapper;
 
+import com.org.census.migration.model.BatchDetails;
+import com.org.census.migration.model.BatchDetailsDto;
+import com.org.census.migration.model.BatchDetailsRequestDto;
 import com.org.census.migration.model.EHRMapping;
 import com.org.census.migration.model.MappingFieldsDto;
 import com.org.census.migration.model.CreateMappingRequestDto;
@@ -23,4 +26,10 @@ public interface ModelEntityMapper {
     public abstract EHRMapping convertToEHRMappingInfo(UpdateMappingRequestDto mappingRequestDto);
 
     public abstract List<EHRMapping> convertToEHRMappingInfoList(List<CreateMappingRequestDto> createMappingRequestDto);
+
+    public abstract BatchDetailsDto toBatchDetailsDTO(BatchDetails batchDetails);
+
+    public abstract List<BatchDetailsDto> toBatchDetailsDTOList(List<BatchDetails> batchDetailsList);
+
+    public abstract BatchDetails toBatchDetailsEntity(BatchDetailsRequestDto batchDetailsRequestDto);
 }

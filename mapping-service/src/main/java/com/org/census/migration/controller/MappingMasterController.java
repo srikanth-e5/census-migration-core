@@ -20,41 +20,29 @@ public class MappingMasterController implements MappingMasterApi {
     public ResponseEntity<Void> saveMappingMaster(String sourceEHRName, String targetEHRName, String serviceLine,
                                                   String masterType, String clientName,
                                                   List<MappingMasterDto> mappingMasterDto) {
-        if (null == clientName || clientName.isBlank()) {
-            clientName = "DEFAULT";
-        }
-        mappingMasterService.saveMappingMaster(sourceEHRName, targetEHRName, serviceLine, clientName,
-                                                      masterType, mappingMasterDto);
+        mappingMasterService.saveMappingMaster(sourceEHRName, targetEHRName, serviceLine,
+                                                      masterType, clientName, mappingMasterDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @Override
     public MappingMasterResponseDto getMappingMaster(String sourceEHRName, String targetEHRName, String serviceLine,
                                                      String masterType, String clientName) {
-        if (null == clientName || clientName.isBlank()) {
-            clientName = "DEFAULT";
-        }
-        return mappingMasterService.getMappingMaster(sourceEHRName, targetEHRName, serviceLine, clientName, masterType);
+        return mappingMasterService.getMappingMaster(sourceEHRName, targetEHRName, serviceLine, masterType, clientName);
     }
 
     @Override
     public ResponseEntity<Void> updateMappingMaster(String sourceEHRName, String targetEHRName, String serviceLine,
                                                     String masterType, String clientName,
                                                     List<MappingMasterDto> mappingMasterDto) {
-        if (null == clientName || clientName.isBlank()) {
-            clientName = "DEFAULT";
-        }
-        mappingMasterService.updateMappingMaster(sourceEHRName, targetEHRName, serviceLine, clientName, masterType, mappingMasterDto);
+        mappingMasterService.updateMappingMaster(sourceEHRName, targetEHRName, serviceLine, masterType, clientName, mappingMasterDto);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @Override
     public ResponseEntity<Void> deleteMappingMaster(String sourceEHRName, String targetEHRName, String serviceLine,
                                                     String masterType, String clientName, String sourceValue) {
-        if (null == clientName || clientName.isBlank()) {
-            clientName = "DEFAULT";
-        }
-        mappingMasterService.deleteMappingMaster(sourceEHRName, targetEHRName, serviceLine, clientName, masterType, sourceValue);
+        mappingMasterService.deleteMappingMaster(sourceEHRName, targetEHRName, serviceLine, masterType, clientName, sourceValue);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
